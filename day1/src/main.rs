@@ -4,12 +4,18 @@ fn main() {
     let mut v = 0;
 
     for line in s.lines() {
-        let first_digit: u32 = get_first_digit(&line).expect(&format!("There to be a first digit for line {line}")).to_digit(10).unwrap();
-        let last_digit: u32 = get_last_digit(&line).expect(&format!("There to be a last digit for line {line}")).to_digit(10).unwrap();
+        let first_digit: u32 = get_first_digit(&line)
+            .expect(&format!("There to be a first digit for line {line}"))
+            .to_digit(10)
+            .unwrap();
+        let last_digit: u32 = get_last_digit(&line)
+            .expect(&format!("There to be a last digit for line {line}"))
+            .to_digit(10)
+            .unwrap();
 
         v += first_digit * 10 + last_digit;
     }
-    
+
     println!("{v}");
 }
 
@@ -34,7 +40,7 @@ const REVERSED_EIGHT_ARRAY: [char; 5] = ['t', 'h', 'g', 'i', 'e'];
 const REVERSED_NINE_ARRAY: [char; 4] = ['e', 'n', 'i', 'n'];
 
 fn get_first_digit(input: &str) -> Option<char> {
-    let mut char_counters: Vec<(usize, &[char])>= vec![
+    let mut char_counters: Vec<(usize, &[char])> = vec![
         (0, &ONE_ARRAY),
         (0, &TWO_ARRAY),
         (0, &THREE_ARRAY),
@@ -69,7 +75,7 @@ fn get_first_digit(input: &str) -> Option<char> {
     return None;
 }
 fn get_last_digit(input: &str) -> Option<char> {
-    let mut char_counters: Vec<(usize, &[char])>= vec![
+    let mut char_counters: Vec<(usize, &[char])> = vec![
         (0, &REVERSED_ONE_ARRAY),
         (0, &REVERSED_TWO_ARRAY),
         (0, &REVERSED_THREE_ARRAY),

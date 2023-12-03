@@ -4,7 +4,7 @@ use std::usize;
 #[derive(Debug, PartialEq)]
 pub struct Game {
     pub id: usize,
-    pub rounds: Vec<CubeSet>
+    pub rounds: Vec<CubeSet>,
 }
 
 impl Game {
@@ -16,12 +16,13 @@ impl Game {
 impl From<&str> for Game {
     fn from(value: &str) -> Self {
         let game_info_colon = value.find(':').expect("Expected the 'Game <id>:' format.");
-        
+
         let id = value[5..game_info_colon].parse::<usize>().unwrap();
 
-        let rounds = value[game_info_colon + 1..].split(";").map(|s| {
-            CubeSet::from(s)
-        }).collect();
+        let rounds = value[game_info_colon + 1..]
+            .split(";")
+            .map(|s| CubeSet::from(s))
+            .collect();
 
         Game::new(id, rounds)
     }
@@ -60,7 +61,7 @@ impl From<&str> for CubeSet {
                 "blue" => blue = n,
                 "red" => red = n,
                 "green" => green = n,
-                _ => panic!("Unknown color")
+                _ => panic!("Unknown color"),
             }
         }
 
