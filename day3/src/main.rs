@@ -1,16 +1,16 @@
 fn solve1(input: &str) -> usize {
     let mut lines = input.lines();
 
-    let mut current_line = lines.next().unwrap();
+    let mut current_line = lines.next().unwrap().chars().collect();
     let mut next_line_opt = lines.next();
 
     if next_line_opt.is_none() {
-        return check_line(&current_line.chars().collect(), &vec![]);
+        return check_line(&current_line, &vec![]);
     }
-    let mut next_line = next_line_opt.unwrap();
+    let mut next_line = next_line_opt.unwrap().chars().collect();
 
     let mut sum = 0;
-    sum += check_line(&current_line.chars().collect(), &vec![&next_line.chars().collect()]);
+    sum += check_line(&current_line, &vec![&next_line]);
 
     loop {
         let prev_line = current_line;
@@ -18,11 +18,11 @@ fn solve1(input: &str) -> usize {
         next_line_opt = lines.next();
 
         if next_line_opt.is_none() {
-            sum += check_line(&current_line.chars().collect(), &vec![&prev_line.chars().collect()]);
+            sum += check_line(&current_line, &vec![&prev_line]);
             break;
         }
-        next_line = next_line_opt.unwrap();
-        sum += check_line(&current_line.chars().collect(), &vec![&prev_line.chars().collect(), &next_line.chars().collect()]);
+        next_line = next_line_opt.unwrap().chars().collect();
+        sum += check_line(&current_line, &vec![&prev_line, &next_line]);
     }
 
     sum
