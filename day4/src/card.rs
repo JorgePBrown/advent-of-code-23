@@ -21,6 +21,21 @@ impl Card {
         }
     }
 
+    pub fn get_winning_cards(self: &Self) -> Vec<u32> {
+        let mut wcs = vec![];
+
+        let mut wins = 0;
+        for wn in self.winning_numbers.iter() {
+            for sn in self.scratch_numbers.iter() {
+                if wn == sn {
+                    wins += 1;
+                    wcs.push(self.id + wins);
+                }
+            }
+        }
+
+        wcs
+    }
 }
 
 impl From<&str> for Card {
