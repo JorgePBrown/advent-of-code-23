@@ -36,12 +36,32 @@ impl Almanac {
     }
 
     fn find_range_for_value(v: u64, ranges: &Vec<(u64, u64, u64)>) -> u64 {
-        for range in ranges {
-            if range.1 <= v && range.1 + range.2 - 1 >= v {
-                return range.0 + (v - range.1);
+        // binary search
+        let mut left = 0;
+        let mut right = ranges.len() - 1;
+        let mut range = None;
+        while left <= right {
+            let middle = (left + right) / 2;
+
+            let m_value = ranges[middle];
+
+            if m_value.1 <= v && m_value.1 + m_value.2 - 1 >= v {
+                range = Some(m_value);
+                break;
+            } else if m_value.1 > v {
+                if middle == 0 {
+                    break;
+                }
+                right = middle - 1;
+            } else {
+                left = middle + 1;
             }
         }
-        v
+
+        match range {
+            Some(r) => return r.0 + (v - r.1),
+            None => v,
+        }
     }
 }
 
@@ -112,6 +132,8 @@ fn get_map_from_lines(lines: &mut Lines) -> Vec<(u64, u64, u64)> {
 
         v.push((values[0], values[1], values[2]));
     }
+
+    v.sort_by(|(_, v2, _), (_, v21, _)| v2.cmp(&v21));
 
     v
 }
