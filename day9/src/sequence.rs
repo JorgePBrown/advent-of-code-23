@@ -14,6 +14,25 @@ impl Sequence {
             return 0;
         }
 
+        let diff_vec = Sequence::get_diff(values);
+
+        values.last().unwrap() + Sequence::get_next_value_rec(&diff_vec)
+    }
+
+    pub fn get_previous_value(&self) -> i64 {
+        Sequence::get_previous_value_rec(&self.values)
+    }
+    fn get_previous_value_rec(values: &[i64]) -> i64 {
+        if values.iter().all(|v| *v == 0) {
+            return 0;
+        }
+
+        let diff_vec = Sequence::get_diff(values);
+
+        values.first().unwrap() - Sequence::get_previous_value_rec(&diff_vec)
+    }
+
+    fn get_diff(values: &[i64]) -> Vec<i64> {
         let mut diff_vec = Vec::with_capacity(max(1, values.len() - 1));
 
         diff_vec.push(values[0]);
@@ -24,7 +43,7 @@ impl Sequence {
         let last_idx = diff_vec.len() - 1;
         diff_vec[last_idx] = values[values.len() - 1] - diff_vec[last_idx];
 
-        values.last().unwrap() + Sequence::get_next_value_rec(&diff_vec)
+        diff_vec
     }
 }
 
